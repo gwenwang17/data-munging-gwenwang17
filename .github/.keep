@@ -1,0 +1,5 @@
+for line_number, line_text in all_text: 
+    separate_string = re.split("\s+", all_text)
+for line_number, line_text in enumerate(all_text): 
+    if line_number > 6 and line_number < 167: 
+        f.write(line_text)   
