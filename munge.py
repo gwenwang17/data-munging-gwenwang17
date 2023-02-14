@@ -20,11 +20,17 @@ for line_number, line_text in enumerate(all_text):
             f.write(line_text)
             x += 1
 
+
 def celsius_to_farenheit():
-    text_to_int = int(line_text) 
-    if text_to_int == True: 
-            farenheit = (text_to_int / 100)*1.8
-            print("%.1f" % farenheit)
+    for line_number, line_text in enumerate(all_text): 
+        for line_text in all_text: 
+            if line_number > 0 and line_number < 145:
+                text_to_int = int(line_text)
+                farenheit = (text_to_int / 100)*1.8
+                print("%.1f" % farenheit)
+            else:
+                break
+        
 
 celsius_to_farenheit()
 
