@@ -3,67 +3,52 @@ all_text = []
 x = 0
 
 
-f = open("data/nasa_data.txt", "r" )
+f = open("data/nasa_data.txt", "r")
 all_text = f.readlines()
 
 
-f = open("nasa_data.txt", "w")
+f = open("clean_data.csv", "w")
 
+# make sure to subtract 1 from line_number as starts from 0
 for line_number, line_text in enumerate(all_text):
-    if line_number == 8:
-        if "***" in line_text:
-            line_text.replace("***", " ") 
-    elif line_number > 6 and line_number < 165:
-        if "Year" not in line_text and line_text.strip(): 
-            f.write(line_text)
-        elif x == 0:
-            f.write(line_text)
-            x += 1
-
-
-def celsius_to_farenheit():
-    for line_number, line_text in enumerate(all_text): 
-        for line_text in all_text: 
-            if line_number > 0 and line_number < 145:
-                data = line_number.split()
-                text_to_int = int(line_text)
-                farenheit = (text_to_int / 100)*1.8
-                print("%.1f" % farenheit)
+    # remove notes
+    if line_number <= 6 or line_number >= 166:
+        continue
+    else:
+        # remove all but the first line of column headings
+        if "Year" in line_text and line_number > 7:
+            continue
+        # remove all blank lines
+        if not line_text.strip():
+            continue
+        else:
+            # convert to fahrenheit
+            # avoid headings
+            if line_number >= 8:
+                cel = line_text.split()
+                fah = []
+                for i, val in enumerate(cel):
+                    # avoids years (first and last element)
+                    if i == 0:
+                        fah.append(val)
+                    elif i == 19:
+                        fah.append(val+"\n")
+                    else:
+                        if "*" not in val:
+                            fah.append("{:.1f}".format(int(val)/100.0*1.8))
+                        # handles missing values, we skip the line
+                        else:
+                            fah = []
+                            break
+                print(fah)
+                string_text = " ".join(fah)
+                f.write(string_text)
+            # handle header
             else:
-                break
-        
-
-celsius_to_farenheit()
-
-
-    
-    
+                string_list = line_text.split()
+                string_text = " ".join(string_list)
+                string_text += "\n"
+                f.write(string_text)
 
 
-
-
-   
- 
-
-
-        
-        
-   
-
-    
-
-    
-        
-
-
-
-
-
-
-
-
-
-
-
-f.close() 
-    
+f.close()
